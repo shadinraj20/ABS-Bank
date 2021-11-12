@@ -32,7 +32,7 @@
             <div class="col-md-4">
                 <div class="withdraw status">
                     <h5>withdraw </h5>
-                    <h2>$00</h2>
+                    <h2>$<span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
                 <div class="col-md-4">
@@ -54,9 +54,9 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Withdraw</h4>
-                    <input type="text"class="form-control"placeholder="$ amount you want to withdraw">
+                    <input id="withdrawAmount" type="text"class="form-control"placeholder="$ amount you want to withdraw">
                     <br>
-                    <button class="btn btn-success">Withdraw</button>
+                    <button id="addWithdraw" class="btn btn-success">Withdraw</button>
                 </div>
             </div>
         </div>  
@@ -77,20 +77,46 @@
          const depAmount = document.getElementById("depositAmount").value;
          const depositNumber = parseFloat(depAmount);
 
-         const crDeposit = document.getElementById("currentDeposit").innerText;
-         const crDepositNumber = parseFloat(crDeposit);
-         const totalDeposit = depositNumber + crDepositNumber;
-         
-         document.getElementById("currentDeposit").innerText = totalDeposit;
+        //  const crDeposit = document.getElementById("currentDeposit").innerText;
+        //  const crDepositNumber = parseFloat(crDeposit);
+        //  const totalDeposit = depositNumber + crDepositNumber;
+        //  document.getElementById("currentDeposit").innerText = totalDeposit;
         //  Balance event handler
+        updateSpanTex("currentDeposit",depositNumber)
+         updateSpanTex("currentBalance",depositNumber)
          
-         const crBalance = document.getElementById("currentBalance").innerText;
-         const crBalanceNumber = parseFloat(crBalance);
-         const totalBalance = depositNumber + crBalanceNumber;
-         document.getElementById("currentBalance").innerText = totalBalance;
+        
          document.getElementById("depositAmount").value ="";
         })
+         
+         function updateSpanTex(id,depositNumber){
+         const current = document.getElementById(id).innerText;
+         const currentNumber = parseFloat(current);
+         const totalAmount = depositNumber + currentNumber;
+         document.getElementById(id).innerText = totalAmount;
+    }
+     
+    // withdraw button event handler
+
+    const withdrawBtn = document.getElementById("addWithdraw");
+              withdrawBtn.addEventListener("click",function(){
+     const withdrawNumber = getInputNumber("withdrawAmount") ;
+     
+     updateSpanTex("currentWithdraw",withdrawNumber);
+     updateSpanTex("currentBalance",-1* withdrawNumber); 
+     
+     
+
+     document.getElementById("withdrawAmount").value="";  
         
+    })
+
+    function getInputNumber(id) {
+        const withdrawAmount = document.getElementById(id).value;
+        const withdrawNumber = parseFloat(withdrawAmount);
+        return withdrawNumber;
+    }
+   
     </script>
 </body>
 </html>
